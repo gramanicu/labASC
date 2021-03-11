@@ -20,20 +20,25 @@ class SimpleThread(Thread):
  
     # Main Thread Code
     def run(self):
-        print ("Hello, I'm Thread-", threading.get_ident(), "and I received the number", self.nr)
+        print ("Hello, I'm Thread-", threading.get_ident(), " and I received the number ", self.nr, sep='')
 
-# The list of threads
-thread_list = []
+def main():
+    # The list of threads
+    thread_list = []
+    
+    # Initialise the rng
+    seed()
+    num_of_threads = int(input("How many threads? "))
+ 
+    # Create and start the threads
+    for i in range(num_of_threads):
+        t = SimpleThread(randint(1, 100))
+        thread_list.append(t)
+        thread_list[i].start()
+ 
+    # Wait for the threads to finish
+    for i in range(len(thread_list)):
+        thread_list[i].join()
 
-# Initialise the rng
-seed()
- 
-# pornim thread-urile
-for i in range(10):
-    thread = Thread(target = access, args = (i, semafor))
-    thread.start()
-    thread_list.append(thread)
- 
-# asteptam terminarea thread-urilor
-for i in range(len(thread_list)):
-    thread_list[i].join()
+if __name__ == "__main__":
+    main()
